@@ -37,25 +37,25 @@ const Cart = () => {
         })}
       </div>
       <div className="cart-bottom">
-        <div className="cart-total">
+      <div className="cart-total">
             <h2>Cart Totals</h2>
             <div>
               <div className="cart-total-details">
                 <p>Subtotal</p>
-                <p>{getTotalCartAmount()}</p>
+                <p>${getTotalCartAmount()}</p>
               </div>
               <hr />
               <div className="cart-total-details">
                 <p>Delivery Fee</p>
-                <p>{2}</p>
+                <p>${getTotalCartAmount()?2:0}</p>
               </div>
               <hr />
               <div className="cart-total-details">
                 <p>Total</p>
-                <p>{getTotalCartAmount() + 2 }</p>
+                <p>${getTotalCartAmount()?getTotalCartAmount() + 2 :0}</p>
               </div>
             </div>
-            <button onClick={()=>navigate("/order")}>PROCEED TO CHECKOUT</button>
+            <button onClick={()=>navigate("/order")}>PROCEED TO PLACEORDER</button>
         </div>
         <div className="cart-promocode">
             <div>
