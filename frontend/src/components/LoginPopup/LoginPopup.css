@@ -1,22 +1,24 @@
 .login-popup{
-    position: absolute;
+    position: fixed;
     z-index: 1;
     width: 100%;
     height: 100%;
     background-color: #00000090;
-    display: grid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .login-popup-container{
     place-self: center;
-    width: max(23vw , 330px);
+    width: max(23vw , 400px);
     color: #808080;
     background-color: white;
     display: flex;
     flex-direction: column;
     gap: 25px;
-    padding: 25px 30px;
+    padding: 25px 40px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 16px;
     animation: fadeIn 0.5s;
 }
 .login-popup-title{
@@ -31,14 +33,15 @@
 }
 .login-popup-inputs{
     display: flex;
-    gap: 20px;
+    gap: 15px;
     flex-direction: column;
 }
 .login-popup-inputs input{
     outline: none;
     border: 1px solid #c9c9c9;
-    padding: 1px;
+    padding: 5px;
     border-radius: 4px;
+    color:rgb(0, 0, 0);
 }
 .login-popup-container button{
     border: none;
