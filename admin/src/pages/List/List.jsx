@@ -41,7 +41,7 @@ const List = ({ url }) => {
 
   useEffect(() => {
     fetchList();
-  }, []);
+  }, [list]);
 
   return (
     <div className="list add flex-col">
