@@ -54,6 +54,10 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.open("http://localhost:4000/api/user/google", "_self"); // Change this to your backend URL
+  };
+
   return (
     <div className="login-popup">
       <ToastContainer />
@@ -99,10 +103,8 @@ const LoginPopup = ({ setShowLogin }) => {
         <button type="sumbit">
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>
-        <div className="login-popup-condition">
-          <input type="checkbox" required />
-          <p> By continuing, I agree to the terms of use and policy</p>
-        </div>
+        <button onClick={handleGoogleLogin}>Login with Google</button>
+
         {currState === "Login" ? (
           <p>
             Create a new account?{" "}
