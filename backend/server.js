@@ -5,6 +5,11 @@ import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoute.js";
 import "dotenv/config.js"
 import cartRouter from "./routes/cartRoute.js";
+import session from "express-session";
+import passport from "passport";
+import passportSetup from "./config/passport.js";
+
+
 
 // app config
 const app = express();
@@ -12,13 +17,28 @@ const port = 4000;
 
 // app middleware
 app.use(express.json())
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    credentials: true
+}));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/api/auth', userRouter);
+
+
+//initialize passport
+passportSetup();
 
 // database connect
 connectDB();
 
 //api endpoint
-app.use("/api/user",userRouter)
+app.use("/api/user", userRouter)
 app.use("/api/food", foodRouter);
 app.use("/images", express.static("uploads"))
 app.use("/api/cart",cartRouter)
