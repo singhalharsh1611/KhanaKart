@@ -8,6 +8,8 @@ import Footer from "./components/Footer/Footer";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import { StoreContext } from "./context/StoreContext";
 import TokenIssue from "./pages/TokenIssue";
+import Verify from "./pages/Verify/Verify";
+
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -33,6 +35,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/token-issue" element={<TokenIssue />} />
+          <Route path='/verify' element={<Verify/>}/>
         </Routes>
       </div>
       <Footer />

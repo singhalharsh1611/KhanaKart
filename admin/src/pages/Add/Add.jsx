@@ -123,6 +123,7 @@ const Add = ({url}) => {
               type="Number"
               name="price"
               placeholder="Enter Price"
+              min="0"
             />
           </div>
         </div>
