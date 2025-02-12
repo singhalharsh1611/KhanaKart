@@ -1,0 +1,9 @@
+
+.spinner{
+    min-height: 70vh;
+    display: flex;
+    align-items: center;justify-content: center;
+    width: 100px;
+    height: 100px;
+    place-self: center;
+}
