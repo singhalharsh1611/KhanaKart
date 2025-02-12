@@ -83,8 +83,8 @@
     gap: 10px;
     width: 140px;
     background-color: #fff2ef;
-    margin-top: 3px;
-    padding: 12px 8px;
+    margin-top: 0px;
+    padding: 12px 8px;    
     border-radius: 4px;
     border: 1px solid tomato;
     outline: 2px solid white;
@@ -108,6 +108,20 @@
 .navbar-profile-dropdown li :hover {
     color: tomato;
 }
+
+
+.name {
+    font-weight: 700;
+    padding-bottom: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center; /* Centers the text */
+    width: 100%; /* Ensures it spans full width */
+    cursor: default; /* Prevents pointer cursor */
+}
+
 
 @media (max-width:1050px) {
     .navbar.logo {

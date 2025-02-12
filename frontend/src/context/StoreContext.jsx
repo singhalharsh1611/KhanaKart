@@ -1,5 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+
+
 
 export const StoreContext = createContext(null);
 
@@ -8,6 +11,7 @@ const StoreContextProvider = (props) => {
   const url = "http://localhost:4000";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
+  const [userName, setUserName] = useState("");
 
   const addtoCart = async (itemId) => {
     if (!cartItems[itemId]) {
@@ -63,6 +67,26 @@ const StoreContextProvider = (props) => {
     loadData();
   }, []);
 
+  //get user name
+  useEffect(() => {
+    async function getName() {
+      if (token) {
+        try {
+          const decoded = jwtDecode(token);
+          console.log("Decoded token: ", decoded);
+          const userId = decoded.id;
+          
+          const response = await axios.get(`${url}/api/user/${userId}`);
+          setUserName(response.data.name);
+        } catch (err) {
+          console.error("Error fetching user:", err);
+        }
+      }
+    }
+    getName();
+  }, [token]);
+
+
   const contextValue = {
     food_list,
     cartItems,
@@ -73,6 +97,8 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
+    userName,
+    setUserName
   };
 
   return <StoreContext.Provider value={contextValue}>{props.children}</StoreContext.Provider>;
