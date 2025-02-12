@@ -7,25 +7,17 @@ const TokenIssue = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchToken = async () => {
-      const response = await fetch(
-        "http://localhost:4000/api/user/token-issue",
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-      if (data.token) {
-        setToken(data.token);
-        localStorage.setItem("token", data.token);
-        navigate("/");
-      } else {
-        console.error("Failed to fetch token:", data.message);
-      }
-    };
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
 
-    fetchToken();
+    if (token) {
+      setToken(token);
+      localStorage.setItem("token", token);
+      navigate("/");
+    } else {
+      // console.error("Token not found in URL");
+      navigate("/login");
+    }
   }, [setToken, navigate]);
 
   return null;

@@ -54,7 +54,9 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
     window.open("http://localhost:4000/api/user/google", "_self"); // Change this to your backend URL
   };
 
@@ -81,6 +83,7 @@ const LoginPopup = ({ setShowLogin }) => {
               type="text"
               placeholder="Your Name"
               required
+              autoComplete="off"
             />
           )}
           <input
@@ -90,6 +93,7 @@ const LoginPopup = ({ setShowLogin }) => {
             value={data.email}
             placeholder="Your Email"
             required
+            autoComplete="off"
           />
           <input
             onChange={onChangeHandler}
@@ -98,6 +102,7 @@ const LoginPopup = ({ setShowLogin }) => {
             type="password"
             placeholder="Password"
             required
+            autoComplete="off"
           />
         </div>
         <button type="sumbit">
