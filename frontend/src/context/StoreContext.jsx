@@ -59,7 +59,7 @@ const StoreContextProvider = (props) => {
   useEffect(() => {
     async function loadData() {
       await fetchFoodList();
-      if (localStorage.getItem("token")) {
+      if (localStorage.getItem("token")) {//to stay login even after refresh
         setToken(localStorage.getItem("token"));
         await loadCartData(localStorage.getItem("token"));
       }

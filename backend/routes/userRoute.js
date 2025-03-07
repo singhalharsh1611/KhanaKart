@@ -14,6 +14,7 @@ userRouter.get('/google', passport.authenticate('google', {
 userRouter.get('/google/callback', passport.authenticate('google', {
     failureRedirect: '/'
 }), (req, res) => {
+    console.log(user);
     if (req.user) {
         const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.redirect(`http://localhost:5173/token-issue?token=${token}`);
