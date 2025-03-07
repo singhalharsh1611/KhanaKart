@@ -108,7 +108,7 @@ const LoginPopup = ({ setShowLogin }) => {
         <button type="sumbit">
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>
-        <button onClick={handleGoogleLogin}>Login with Google</button>
+        <button onClick={handleGoogleLogin}>{currState === "Sign Up" ? "Continue" : "Login"} with Google</button>
 
         {currState === "Login" ? (
           <p>
