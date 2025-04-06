@@ -17,6 +17,7 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    imagePublicId: { type: String }, // it will help to remove the image when food is removed
     category: {
         type: String,
         required: true
