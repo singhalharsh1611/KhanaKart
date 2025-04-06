@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./FoodDisplay.css";
-import { StoreContext } from "../../context/StoreContext";
+import { StoreContext } from "../../context/storeContext";
 import FoodItem from "../FoodItem/FoodItem";
 
 const FoodDisplay = ({ category}) => {// bydefault=All

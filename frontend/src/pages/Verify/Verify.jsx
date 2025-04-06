@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import './Verify.css'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { StoreContext } from '../../context/StoreContext';
+import { StoreContext } from '../../context/storeContext';
 import {Circles} from 'react-loader-spinner'
 import axios from 'axios';
 
