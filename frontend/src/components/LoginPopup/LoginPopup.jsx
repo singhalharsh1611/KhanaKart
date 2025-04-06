@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import{ useContext, useEffect, useState } from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
@@ -57,7 +57,7 @@ const LoginPopup = ({ setShowLogin }) => {
   const handleGoogleLogin = (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
-    window.open("http://localhost:4000/api/user/google", "_self"); // Change this to your backend URL
+    window.open(`${import.meta.env.VITE_BACKEND_URL}/api/user/google`, "_self"); // Change this to your backend URL
   };
 
   return (

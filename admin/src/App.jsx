@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { Routes, Route } from "react-router-dom";
@@ -9,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 
 const App = () => {
-  const url="http://localhost:4000"
+  const url=import.meta.env.VITE_BACKEND_URL;
   return (
     <div>
       <ToastContainer autoClose={1000} />
