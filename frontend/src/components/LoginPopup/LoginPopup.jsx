@@ -1,7 +1,7 @@
 import{ useContext, useEffect, useState } from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
-import { StoreContext } from "../../context/StoreContext";
+import { StoreContext } from "../../context/storeContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
