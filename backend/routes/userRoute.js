@@ -3,6 +3,8 @@ import { loginUser, registerUser } from "../controllers/userController.js"
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const userRouter = express.Router();
 
@@ -17,9 +19,9 @@ userRouter.get('/google/callback', passport.authenticate('google', {
     // console.log(req.user);
     if (req.user) {
         const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.redirect(`http://localhost:5173/token-issue?token=${token}`);
+        res.redirect(`${process.env.FRONTEND_URL}/token-issue?token=${token}`);
     } else {
-        res.redirect('http://localhost:5173/login');
+        res.redirect(`${process.env.FRONTEND_URL}/login`);
     }
 });
 
@@ -34,7 +36,8 @@ userRouter.get('/token-issue', (req, res) => {
 
 userRouter.get('/logout', (req, res) => {
     req.session = null;
-    res.redirect('http://localhost:5173');
+    res.redirect(`${process.env.FRONTEND_URL}`);
+
 });
 
 userRouter.post("/login", loginUser);
