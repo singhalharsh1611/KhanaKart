@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="footer-content">
                 <div className="footer-content-left">
                    <div className="footer-logo"><img src={assets.logo} alt=''/></div> 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos deleniti tenetur quaerat earum, illum ipsum a rerum delectus nam modi amet praesentium, impedit maxime voluptatibus cupiditate velit enim eaque. Inventore.</p>
+                    <p>Serving smiles, spoonfuls of joy, and the occasional food coma — every single day. Thanks for being a part of the KhanaKart family. Remember, calories don’t count when the food is this good!</p>
                     <div className="footer-social-icons">
                         
                         <img src={assets.facebook_icon} alt="" />
