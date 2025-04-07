@@ -71,7 +71,7 @@ const StoreContextProvider = (props) => {
       if (token) {
         try {
           const decoded = jwtDecode(token);
-          console.log("Decoded token: ", decoded);
+          // console.log("Decoded token: ", decoded);
           const userId = decoded.id;
           
           const response = await axios.get(`${url}/api/user/${userId}`);
