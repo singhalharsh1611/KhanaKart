@@ -3,10 +3,12 @@ import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash,faPencil } from "@fortawesome/free-solid-svg-icons";
+import Update from "../Update/Update";
 
 const List = ({ url }) => {
   const [list, setList] = useState([]);
+  const [editItem, setEditItem] = useState(null); 
 
   const fetchList = async () => {
     try {
@@ -64,15 +66,22 @@ const List = ({ url }) => {
                 <img src={item.image} alt={item.name} />
                 <p>{item.name}</p>
                 <p>{item.category}</p>
-                <p>${item.price}</p>
+                <p>₹{item.price}</p>
+                <div className="list-table-format-action">
                 <p onClick={() => removeFood(item._id)} className="cursor">
                 <FontAwesomeIcon icon={faTrash} />
                 </p>
+                <p onClick={() => setEditItem(item)} className="cursor">
+                    <FontAwesomeIcon icon={faPencil} />
+                  </p>
+                </div>
               </div>
             ))}
           </>
         )}
-
+        {editItem && (
+          <Update food={editItem} onClose={() => setEditItem(null)} url={url} fetchList={fetchList} />
+        )}
       </div>
     </div>
   );
