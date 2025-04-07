@@ -25,5 +25,8 @@ dist-ssr
 backend/.env
 backend/.env
 frontend/.env
+<<<<<<< HEAD
 frontend/.env
+=======
+>>>>>>> 6fdde227b308931597b66c32c0beca79019a63e9
 admin/.env
