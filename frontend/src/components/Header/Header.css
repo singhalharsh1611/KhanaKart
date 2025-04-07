@@ -1,57 +1,102 @@
 .header {
     height: 34vw;
     margin: 30px auto;
-    background: url('../../assets/header_img.jpg') no-repeat;
+    background: url('../../assets/header_img.jpg') no-repeat center center;
+    background-size: cover; /* ✅ Fill entire header with the image */
     border-radius: 24px;
-    background-size: contain;
     position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
 }
-.header 
 
 .header-contents {
-    position: absolute;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     gap: 1.5vw;
     max-width: 50%;
-    bottom: 10%;
-    left: 6vw;
-    animation: fateIn 3s;
+    animation: fadeIn 3s;
+    color: white;
 }
 
 .header-contents h2 {
-    font-weight: 500;
+    font-weight: 600;
     color: white;
     font-size: max(4.5vw, 22px);
 }
 
 .header-contents p {
     color: white;
-    font-size: 1vw;
+    font-size: 1.1vw;
+    line-height: 1.4;
 }
+
 .header-contents button {
     border: none;
     color: #747474;
     font-weight: 500;
     padding: 1vw 2.3vw;
     background-color: white;
-    font-size: max(1vw,13px);
+    font-size: max(1vw, 13px);
     border-radius: 50px;
+    cursor: pointer;
 }
-@media (max-width: 1050px){
-    .header-contents{
-        max-width: 45%;
+
+@media (max-width: 1024px) {
+    .header {
+        height: auto;
+        padding: 30px 20px;
+    }
+
+    .header-contents {
+        max-width: 100%;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .header-contents h2 {
+        font-size: 28px;
+    }
+
+    .header-contents p {
+        font-size: 16px;
+        display: block;
+    }
+
+    .header-contents button {
+        padding: 12px 24px;
+        font-size: 15px;
     }
 }
-@media (max-width: 1050px){
-    .header-contents{
-        max-width: 65%;
+
+@media (max-width: 600px) {
+    .header-contents h2 {
+        font-size: 24px;
     }
-    .header-contents p{
-        display: none;
+
+    .header-contents p {
+        font-size: 14px;
     }
-    .header-contents button{
-        padding: 2vw 4vw;
+
+    .header-contents {
+        gap: 16px;
+    }
+
+    .header {
+        border-radius: 16px;
+    }
+}
+
+/* Optional smooth fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
