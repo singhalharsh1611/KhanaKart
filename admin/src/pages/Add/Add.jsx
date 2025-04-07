@@ -5,10 +5,11 @@ import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { FaSpinner } from "react-icons/fa";
 
-const Add = ({url}) => {
-  
+const Add = ({ url }) => {
   const [image, setImage] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
     name: "",
@@ -32,6 +33,8 @@ const Add = ({url}) => {
       return;
     }
 
+    setLoading(true);
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("name", data.name);
@@ -39,19 +42,26 @@ const Add = ({url}) => {
     formData.append("category", data.category);
     formData.append("price", Number(data.price));
 
-    const response = await axios.post(`${url}/api/food/add`, formData);
+    try {
+      const response = await axios.post(`${url}/api/food/add`, formData);
 
-    if (response.data.success) {
-      setData({
-        name: "",
-        description: "",
-        price: "",
-        category: "Salad",
-      });
-      setImage(false);
-      toast.success(response.data.message);
-    } else {
-      toast.error(response.data.message);
+      if (response.data.success) {
+        setData({
+          name: "",
+          description: "",
+          price: "",
+          category: "Salad",
+        });
+        setImage(false);
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,8 +137,8 @@ const Add = ({url}) => {
             />
           </div>
         </div>
-        <button type="submit" className="add-btn">
-          Add Item
+        <button type="submit" className="add-btn" disabled={loading}>
+          {loading ? <FaSpinner className="spinner-icon" /> : "Add Item"}
         </button>
       </form>
     </div>
