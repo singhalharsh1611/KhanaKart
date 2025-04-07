@@ -50,16 +50,31 @@ const StoreContextProvider = (props) => {
   };
 
   const loadCartData = async (token) => {
-    const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
-    setCartItems(response.data.cartData);
+    try {
+      const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
+      setCartItems(response.data.cartData || {});
+    } catch (err) {
+      console.error("Failed to load cart data:", err);
+      setCartItems({}); 
+    }
   };
+  
 
   useEffect(() => {
     async function loadData() {
       await fetchFoodList();
       if (localStorage.getItem("token")) {//to stay login even after refresh
-        setToken(localStorage.getItem("token"));
-        await loadCartData(localStorage.getItem("token"));
+        const storedToken = localStorage.getItem("token");
+        try {
+          setToken(storedToken);
+          await loadCartData(storedToken);
+        }
+        catch(error){
+          console.error("Invalid token or failed to load data:", error);
+          localStorage.removeItem("token");
+          setToken("");
+          setCartItems({});
+        }
       }
     }
     loadData();
