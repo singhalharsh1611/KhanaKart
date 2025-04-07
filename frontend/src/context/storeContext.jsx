@@ -98,7 +98,7 @@ const StoreContextProvider = (props) => {
     userName,
     setUserName
   };
-
+  // console.log("inside store contex",cartItems);
   return <StoreContext.Provider value={contextValue}>{props.children}</StoreContext.Provider>;
 };
 
