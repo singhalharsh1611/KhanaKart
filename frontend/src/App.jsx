@@ -6,6 +6,7 @@ import Cart from "./pages/Cart/Cart";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
 import Footer from "./components/Footer/Footer";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
+import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
 import { StoreContext } from "./context/storeContext";
 import TokenIssue from "./pages/TokenIssue";
 import Verify from "./pages/Verify/Verify";
@@ -13,6 +14,7 @@ import MyOrders from "./pages/MyOrders/MyOrders";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [forgetPassword, setForgetPassword] = useState(false);
   const { setToken } = useContext(StoreContext);
   const location = useLocation();
 
@@ -27,7 +29,20 @@ const App = () => {
 
   return (
     <>
-      {showLogin ? <LoginPopup setShowLogin={setShowLogin} /> : <></>}
+      {showLogin &&
+        (forgetPassword ? (
+          <ForgetPassword
+            setShowLogin={setShowLogin}
+            setForgetPassword={setForgetPassword}
+          />
+        ) : (
+          <LoginPopup
+            setShowLogin={setShowLogin}
+            setForgetPassword={setForgetPassword}
+          />
+        ))}
+      {/* {forgetPassword ? <>} */}
+      
       <div className="app">
         <Navbar setShowLogin={setShowLogin} />
         <Routes>

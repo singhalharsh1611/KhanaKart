@@ -1,21 +1,21 @@
 import{ useContext, useEffect, useState } from "react";
-import "./LoginPopup.css";
+import "./ForgetPassword.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/storeContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const LoginPopup = ({ setShowLogin,setForgetPassword }) => {
+const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
   // getting url from context api
   const { url, token, setToken } = useContext(StoreContext);
 
-  const [currState, setCurrState] = useState("Login");
+  const [currState, setCurrState] = useState("Forget Password");
 
   const [data, setData] = useState({
     name: "",
     email: "",
-    password: "",
+    newPassword: "",
   });
   const onChangeHandler = (event) => {
     const name = event.target.name;
@@ -24,18 +24,16 @@ const LoginPopup = ({ setShowLogin,setForgetPassword }) => {
   };
 
   // for checking
-  // useEffect(()=>{
-  //   console.log(data);
-  // },[data])
+//   useEffect(()=>{
+//     console.log(data);
+//   },[data])
 
-  const onLogin = async (event) => {
+  const updatePassword = async (event) => {
     event.preventDefault();
     let newUrl = url;
-    if (currState == "Login") {
-      newUrl += "/api/user/login";
-    } else {
-      newUrl += "/api/user/register";
-    }
+    
+    newUrl += "/api/user/updatePassword";
+    
     const response = await axios.post(newUrl, data);
     if (response.data.success) {
       const toastMessage =
@@ -53,6 +51,9 @@ const LoginPopup = ({ setShowLogin,setForgetPassword }) => {
       // alert(response.data.message);
     }
   };
+  const ChangeToLogin=()=>{
+    setForgetPassword(false);
+  }
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
@@ -61,22 +62,22 @@ const LoginPopup = ({ setShowLogin,setForgetPassword }) => {
   };
 
   return (
+    
     <div className="login-popup">
+    
       <ToastContainer />
-      <form onSubmit={onLogin} className="login-popup-container">
+      <form onSubmit={updatePassword} className="login-popup-container">
         <div className="login-popup-title">
           <h2>{currState}</h2>
           <img
-            onClick={() => setShowLogin(false)}
+            onClick={() =>ChangeToLogin()}
             src={assets.cross_icon}
             alt=""
           />
         </div>
         <div className="login-popup-inputs">
-          {currState === "Login" ? (
-            <></>
-          ) : (
-            <input
+         
+            {/* <input
               onChange={onChangeHandler}
               name="name"
               value={data.name}
@@ -84,8 +85,8 @@ const LoginPopup = ({ setShowLogin,setForgetPassword }) => {
               placeholder="Your Name"
               required
               autoComplete="off"
-            />
-          )}
+            /> */}
+          
           <input
             onChange={onChangeHandler}
             name="email"
@@ -97,37 +98,27 @@ const LoginPopup = ({ setShowLogin,setForgetPassword }) => {
           />
           <input
             onChange={onChangeHandler}
-            name="password"
+            name="newPassword"
             value={data.password}
-            type="password"
-            placeholder="Password"
+            type="newPassword"
+            placeholder="New Password"
             required
             autoComplete="off"
           />
-          <p>
-            Forget Password ? {" "}
-            <span onClick={() => setForgetPassword(true)}>Click here</span>
-          </p>
         </div>
         <button type="sumbit">
-          {currState === "Sign Up" ? "Create account" : "Login"}
+          Update password
         </button>
-        <button onClick={handleGoogleLogin}>{currState === "Sign Up" ? "Continue" : "Login"} with Google</button>
-
-        {currState === "Login" ? (
+        
+        
           <p>
-            Create a new account?{" "}
-            <span onClick={() => setCurrState("Sign Up")}>Click here</span>
+            Back to?{" "}
+            <span onClick={() =>ChangeToLogin()}>Login here</span>
           </p>
-        ) : (
-          <p>
-            Already have an account?{" "}
-            <span onClick={() => setCurrState("Login")}>Login here</span>
-          </p>
-        )}
+        
       </form>
     </div>
   );
 };
 
-export default LoginPopup;
+export default ForgetPassword;
