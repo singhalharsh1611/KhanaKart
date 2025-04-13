@@ -9,14 +9,15 @@ import "react-toastify/dist/ReactToastify.css";
 const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
   // getting url from context api
   const { url, token, setToken } = useContext(StoreContext);
-
   const [currState, setCurrState] = useState("Forget Password");
 
   const [data, setData] = useState({
-    name: "",
     email: "",
-    newPassword: "",
+    password: "",
   });
+
+
+
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -36,30 +37,27 @@ const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
     
     const response = await axios.post(newUrl, data);
     if (response.data.success) {
-      const toastMessage =
-        currState === "Login"
-          ? "Logged in Successfully!"
-          : "Account created Successfully!";
+      const toastMessage ="Password updated"
       toast.success(toastMessage);
+
+    //   set token
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
       setTimeout(() => {
-        setShowLogin(false);
+        // setShowLogin(false);
+        setForgetPassword(false);
       }, 1500);
     } else {
       toast.error(`${response.data.message}`);
       // alert(response.data.message);
     }
-  };
+  }
+
   const ChangeToLogin=()=>{
     setForgetPassword(false);
   }
 
-  const handleGoogleLogin = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    window.open(`${import.meta.env.VITE_BACKEND_URL}/api/user/google`, "_self"); // Change this to your backend URL
-  };
+  
 
   return (
     
@@ -98,9 +96,9 @@ const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
           />
           <input
             onChange={onChangeHandler}
-            name="newPassword"
+            name="password"
             value={data.password}
-            type="newPassword"
+            type="password"
             placeholder="New Password"
             required
             autoComplete="off"
