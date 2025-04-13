@@ -1,9 +1,10 @@
 import express from "express"
-import { loginUser, registerUser, updatePassword } from "../controllers/userController.js"
+import { loginUser, registerUser, sendMail, updatePassword } from "../controllers/userController.js"
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const userRouter = express.Router();
@@ -42,7 +43,8 @@ userRouter.get('/logout', (req, res) => {
 
 userRouter.post("/login", loginUser);
 userRouter.post("/register", registerUser);
-userRouter.post("/updatePassword", updatePassword);
+userRouter.post("/forgetPassword",sendMail);
+userRouter.post("/updatePassword",updatePassword);
 
 userRouter.get("/:id", async (req, res) => {
     try {

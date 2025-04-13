@@ -80,7 +80,7 @@ const StoreContextProvider = (props) => {
     loadData();
   }, []);
 
-  //get user name
+  //to get user name
   useEffect(() => {
     async function getName() {
       if (token) {

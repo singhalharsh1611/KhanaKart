@@ -1,19 +1,24 @@
-import{ useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./ForgetPassword.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/storeContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaSpinner } from "react-icons/fa";
 
-const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
+
+const ForgetPassword = ({ setShowLogin, setForgetPassword }) => {
   // getting url from context api
   const { url, token, setToken } = useContext(StoreContext);
   const [currState, setCurrState] = useState("Forget Password");
+  const [loader,setLoading] = useState(false);
+
 
   const [data, setData] = useState({
     email: "",
     password: "",
+    otp: ""
   });
 
 
@@ -25,57 +30,85 @@ const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
   };
 
   // for checking
-//   useEffect(()=>{
-//     console.log(data);
-//   },[data])
+  //   useEffect(()=>{
+  //     console.log(data);
+  //   },[data])
 
-  const updatePassword = async (event) => {
+  const forgetPassword = async (event) => {
     event.preventDefault();
     let newUrl = url;
-    
-    newUrl += "/api/user/updatePassword";
-    
-    const response = await axios.post(newUrl, data);
-    if (response.data.success) {
-      const toastMessage ="Password updated"
-      toast.success(toastMessage);
+    setLoading(true);
 
-    //   set token
+    newUrl += "/api/user/forgetPassword";
+
+    const response = await axios.post(newUrl, data);
+    setLoading(false);
+    if (response.data.success) {
+      const toastMessage = "Email Sened"
+      toast.success(toastMessage);
+      setCurrState("emailSended");
+      //   set token
+      // setToken(response.data.token);
+      // localStorage.setItem("token", response.data.token);
+      setTimeout(() => {
+        // setShowLogin(false);
+        // setForgetPassword(false);
+
+      }, 1000);
+    } else {
+      toast.error(`${response.data.message}`);
+      // alert(response.data.message);
+    }
+
+  }
+
+  const ChangeToLogin = () => {
+    setForgetPassword(false);
+  }
+
+  const updatePassword = async (e) => {
+    e.preventDefault();
+    let newUrl = url;
+    setLoading(true);
+    newUrl += "/api/user/updatePassword";
+    const response = await axios.post(newUrl, data);
+    setLoading(false);
+    if (response.data.success) {
+
+      const toastMessage = "Password updated"
+      toast.success(toastMessage);
+      setCurrState("emailSended");
+      //   set token
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
       setTimeout(() => {
-        // setShowLogin(false);
+        setShowLogin(false);
         setForgetPassword(false);
-      }, 1500);
+
+      }, 1000);
     } else {
       toast.error(`${response.data.message}`);
       // alert(response.data.message);
     }
   }
 
-  const ChangeToLogin=()=>{
-    setForgetPassword(false);
-  }
-
-  
-
   return (
-    
+
     <div className="login-popup">
-    
+
       <ToastContainer />
-      <form onSubmit={updatePassword} className="login-popup-container">
+      <form  className="login-popup-container">
         <div className="login-popup-title">
           <h2>{currState}</h2>
           <img
-            onClick={() =>ChangeToLogin()}
+            onClick={() => ChangeToLogin()}
             src={assets.cross_icon}
             alt=""
           />
         </div>
         <div className="login-popup-inputs">
-         
-            {/* <input
+
+          {/* <input
               onChange={onChangeHandler}
               name="name"
               value={data.name}
@@ -84,7 +117,7 @@ const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
               required
               autoComplete="off"
             /> */}
-          
+
           <input
             onChange={onChangeHandler}
             name="email"
@@ -94,26 +127,49 @@ const ForgetPassword = ({ setShowLogin,setForgetPassword }) => {
             required
             autoComplete="off"
           />
-          <input
-            onChange={onChangeHandler}
-            name="password"
-            value={data.password}
-            type="password"
-            placeholder="New Password"
-            required
-            autoComplete="off"
-          />
+
+          {currState === "Forget Password" ? <>
+            <button onClick={(e)=>forgetPassword(e)}>
+            {loader? <FaSpinner className="spinner-icon" /> : "Send OTP"}
+            </button>
+
+          </> : <>
+            <input
+              onChange={onChangeHandler}
+              name="otp"
+              value={data.otp}
+              type="text"
+              placeholder="OTP"
+              required
+              autoComplete="off"
+            />
+            <input
+              onChange={onChangeHandler}
+              name="password"
+              value={data.password}
+              type="password"
+              placeholder="New Password"
+              required
+              autoComplete="off"
+            />
+            <button onClick={(e)=>updatePassword(e)} disabled={loader}>
+            {loader? <FaSpinner className="spinner-icon" /> : "update Password"}
+            </button>
+            <p>
+              Back to?{" "}
+              <span onClick={() => {setCurrState("Forget Password"); setLoading(false)}}>Resend It</span>
+            </p>
+
+          </>}
         </div>
-        <button type="sumbit">
-          Update password
-        </button>
-        
-        
-          <p>
-            Back to?{" "}
-            <span onClick={() =>ChangeToLogin()}>Login here</span>
-          </p>
-        
+
+
+
+        <p>
+          Back to?{" "}
+          <span onClick={() => ChangeToLogin()}>Login here</span>
+        </p>
+
       </form>
     </div>
   );

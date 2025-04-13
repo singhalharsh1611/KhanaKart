@@ -2,8 +2,10 @@ import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import validator from "validator"
+import nodemailer from "nodemailer";
 
 // login user
+
 
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -67,41 +69,90 @@ export const registerUser = async (req, res) => {
 
 }
 
+const otpStore = {};
+export const sendMail = async (req, res) => {
+    try {
+        // Generate 6-digit OTP
+        const { email } = req.body;
+
+        // Validate input
+        if (!validator.isEmail(email)) {
+            return res.json({ success: false, message: "Invalid email" });
+        }
+        // User exist or not
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.json({ success: false, message: "User not found" });
+        }
+
+        // generate and store otp
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        otpStore[email] = { otp, expires: Date.now() + 5 * 60 * 1000 };
+
+        // Send OTP via nodemailer 
+        // Configure transporter
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: `${process.env.SENDER_GMAIL}`,
+                pass: 'jzepvnrwnvxqrpsa', // Use App Password, not your Gmail password!
+            },
+        });
+
+        // Mail options
+        const mailOptions = {
+            from: `<${process.env.SENDER_GMAIL}>`,
+            to: `${email}`,
+            subject: "Your OTP Code",
+            text: `Your OTP is: ${otp}`,
+            html: `<h3>ThankYou for Visiting KhanaKart <br> Your OTP is: <strong>${otp}</strong></h3>`,
+        };
+
+        // Send mail
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sented:", info.messageId);
+        res.json({ success: true, message: "OTP sent to email" });
+    } catch (error) {
+        console.error("Email error:", error);
+        res.status(500).json({ success: false, message: "Email failed", error });
+    }
+}
 
 export const updatePassword = async (req, res) => {
+    console.log("updatePassword called");
     try {
-      const { email, password } = req.body;
-  
-      // Validate inputs
-      if (!validator.isEmail(email)) {
-        return res.json({ success: false, message: "Please enter a valid email" });
-      }
-      if (password.length < 8) {
-        return res.json({ success: false, message: "Please enter a strong password" });
-      }
-  
-      // Check if user exists
-      const user = await userModel.findOne({ email });
-      if (!user) {
-        return res.json({ success: false, message: "User does not exist" });
-      }
-  
-      // Hash the new password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-  
-      // Update user's password
-      user.password = hashedPassword;
-      await user.save();
-  
-      // Optionally, create new token (if needed)
-      const token = createToken(user._id);
-  
-      res.json({ success: true, message: "Password updated successfully", token });
-  
+        const { email, password, otp } = req.body;
+        // Validate input
+        if (!validator.isEmail(email)) {
+            return res.json({ success: false, message: "Invalid email" });
+        }
+        if (password.length < 8) {
+            return res.json({ success: false, message: "Weak password" });
+        }
+
+        const stored = otpStore[email];
+        console.log(stored,otp)
+        if (!stored || stored.otp !== otp || stored.expires < Date.now()) {
+            return res.json({ success: false, message: "Invalid or expired OTP" });
+        }
+
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.json({ success: false, message: "User not found" });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        user.password = hashedPassword;
+        await user.save();
+        console.log("password update");
+        delete otpStore[email]; // clean up used OTP
+
+        const token = createToken(user._id);
+        res.json({ success: true, message: "Password updated", token });
     } catch (error) {
-      console.log(error);
-      res.json({ success: false, message: "Server Error" });
+        console.error("Email error:", error);
+        res.status(500).json({ success: false, message: "Email failed", error });
     }
-  };
-  
+};
+
