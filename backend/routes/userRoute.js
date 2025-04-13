@@ -1,5 +1,5 @@
 import express from "express"
-import { loginUser, registerUser } from "../controllers/userController.js"
+import { loginUser, registerUser, updatePassword } from "../controllers/userController.js"
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
@@ -42,6 +42,7 @@ userRouter.get('/logout', (req, res) => {
 
 userRouter.post("/login", loginUser);
 userRouter.post("/register", registerUser);
+userRouter.post("/updatePassword", updatePassword);
 
 userRouter.get("/:id", async (req, res) => {
     try {
