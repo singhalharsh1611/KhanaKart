@@ -156,7 +156,7 @@ const ForgetPassword = ({ setShowLogin, setForgetPassword }) => {
             {loader? <FaSpinner className="spinner-icon" /> : "update Password"}
             </button>
             <p>
-              Back to?{" "}
+              Please check Spam or {" "}
               <span onClick={() => {setCurrState("Forget Password"); setLoading(false)}}>Resend It</span>
             </p>
 
