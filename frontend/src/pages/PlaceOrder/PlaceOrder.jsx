@@ -3,9 +3,17 @@ import "./PlaceOrder.css";
 import { StoreContext } from "../../context/storeContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
 const PlaceOrder = () => {
   const { getTotalCartAmount, token, food_list, cartItems, url } =
     useContext(StoreContext);
+
+  // Get current location
+  if (!navigator.geolocation) {
+    alert("Geolocation is not supported by your browser.");
+    return;
+  }
 
   const [data, setData] = useState({
     firstName: "",
@@ -56,6 +64,7 @@ const PlaceOrder = () => {
 
   useEffect(() => {
     if (!token) {
+      
       navigate("/cart");
     } else if (getTotalCartAmount() === 0) {
       navigate("/cart");
@@ -64,6 +73,7 @@ const PlaceOrder = () => {
 
   return (
     <form onSubmit={placeOrder} className="place-order">
+      <ToastContainer/>
       <div className="place-order-left">
         <p className="title">Delivery Information</p>
         <div className="multi-fields">
