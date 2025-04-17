@@ -1,4 +1,3 @@
-// config/passport.js
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import userModel from '../models/userModel.js';
@@ -10,18 +9,40 @@ const passportSetup = () => {
         callbackURL: `${process.env.BACKEND_URL}/api/auth/google/callback`,
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            // Check if user already exists in db
-            const existingUser = await userModel.findOne({ googleId: profile.id });
-            if (existingUser) {
-                return done(null, existingUser);
+            // Extract email safely
+            const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+
+            if (!email) {
+                return done(new Error("No email found in Google profile"), null);
             }
-            // else create a new user in db
-            const newUser = await new userModel({
+
+            let user = await userModel.findOne({ googleId: profile.id });
+
+            if (user) {
+                return done(null, user);
+            }
+
+            user = await userModel.findOne({ email });
+
+            if (user) {
+                user.googleId = profile.id;
+                user.name = profile.displayName;
+                user.profilePicture = profile.photos && profile.photos.length > 0 ? profile.photos[0].value : user.profilePicture;
+
+                await user.save();
+                return done(null, user);
+            }
+
+            const newUser = new userModel({
                 name: profile.displayName,
-                email: profile.emails[0].value,
-                googleId: profile.id
-            }).save();
+                email: email,
+                googleId: profile.id,
+                profilePicture: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : undefined
+            });
+            await newUser.save();
+
             done(null, newUser);
+
         } catch (error) {
             console.error(error);
             done(error, null);
@@ -33,9 +54,9 @@ const passportSetup = () => {
     });
 
     passport.deserializeUser((id, done) => {
-        userModel.findById(id).then((user) => {
-            done(null, user);
-        });
+        userModel.findById(id)
+            .then((user) => done(null, user))
+            .catch(err => done(err, null));
     });
 };
 
