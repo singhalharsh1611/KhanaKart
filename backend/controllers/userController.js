@@ -93,9 +93,11 @@ export const sendMail = async (req, res) => {
         // Configure transporter
         const transporter = nodemailer.createTransport({
             service: "gmail",
+            secure:true,
+            port:465,
             auth: {
                 user: `${process.env.SENDER_GMAIL}`,
-                pass: 'jzepvnrwnvxqrpsa', // Use App Password, not your Gmail password!
+                pass: `${process.env.SENDER_PASS}`, // Use App Password, not your Gmail password!
             },
         });
 
@@ -131,7 +133,7 @@ export const updatePassword = async (req, res) => {
         }
 
         const stored = otpStore[email];
-        console.log(stored,otp)
+        // console.log(stored,otp)
         if (!stored || stored.otp !== otp || stored.expires < Date.now()) {
             return res.json({ success: false, message: "Invalid or expired OTP" });
         }
