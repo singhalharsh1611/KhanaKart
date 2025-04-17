@@ -3,28 +3,28 @@ import './Cart.css'
 import { StoreContext } from '../../context/storeContext'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer,toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 const Cart = () => {
   const { cartItems, food_list, removeFromCart,getTotalCartAmount,url, token } = useContext(StoreContext);
   const navigate = useNavigate();
   const [aval,setaval]=useState(false);
   const handlePlaceOrderClick = () => {
-    setaval
+    console.log(import.meta.env.REST_LONG);
     if (!token ) {
       toast.error("Please login to continue!"); 
     }
-    else if (handleLocationCheck()) {
+    else if ( handleLocationCheck() ) {
       toast.error("You're outside our delivery area.");
     }
-    
      else {
       navigate("/order");
     }
   };
   const handleLocationCheck = () =>{
     const restaurantLocation = {
-      lat: 25.4476288,  // defualt - 25.4476288
-      lng: 81.854464   // defualt  - 81.854464
+      lat: import.meta.env.REST_LAN,  // defualt - 25.4476288
+      lng: import.meta.env.REST_LONG  // defualt  - 81.854464
     };
 
     if (navigator.geolocation) {
