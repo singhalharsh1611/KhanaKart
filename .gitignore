@@ -25,3 +25,4 @@ dist-ssr
 backend/.env
 backend/.env
 frontend/.env
+admin/.env
