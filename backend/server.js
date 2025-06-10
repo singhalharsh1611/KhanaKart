@@ -19,7 +19,7 @@ import orderRouter from "./routes/orderRoute.js";
     // app middleware
     app.use(express.json())
     app.use(cors({
-        origin: ['http://localhost:5173', 'http://localhost:5174', "https://khanakart.onrender.com", "https://khanakart-admin.onrender.com", process.env.BACKEND_URL, process.env.FRONTEND_URL],
+        origin: ['http://localhost:5173', 'http://localhost:5174', "https://khanakart.onrender.com", "https://khanakart-admin.onrender.com", process.env.BACKEND_URL, process.env.FRONTEND_URL, process.env.ADMIN_URL],
         credentials: true
     }));
     app.use(session({
