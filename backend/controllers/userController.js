@@ -9,10 +9,20 @@ import nodemailer from "nodemailer";
 
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
-    // console.log(req.body);
+    console.log(req.body);
     try {
+        if (email === process.env.ADMIN_EMAIL) {
+            if (password === process.env.ADMIN_PASSWORD) {
+                const token = createToken("admin-id", "admin");
+                return res.json({ success: true, token });
+            } else {
+                return res.json({ success: false, message: "Incorrect admin credentials" });
+            }
+        }
+
         const user = await userModel.findOne({ email });
         // console.log(user);
+
         if (!user) {
             return res.json({ success: false, message: "Email does not exist" })
         }
@@ -20,7 +30,8 @@ export const loginUser = async (req, res) => {
         if (!isMatch) {
             return res.json({ success: false, message: "Incorrect Credentials" })
         }
-        const token = createToken(user._id);
+        
+        const token = createToken(user._id, user);
         res.json({ success: true, token });
     } catch (error) {
         console.log(error);
@@ -28,8 +39,8 @@ export const loginUser = async (req, res) => {
     }
 }
 
-const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET)
+const createToken = (id, role) => {
+    return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 }
 
 // register user
@@ -93,8 +104,8 @@ export const sendMail = async (req, res) => {
         // Configure transporter
         const transporter = nodemailer.createTransport({
             service: "gmail",
-            secure:true,
-            port:465,
+            secure: true,
+            port: 465,
             auth: {
                 user: `${process.env.SENDER_GMAIL}`,
                 pass: `${process.env.SENDER_PASS}`, // Use App Password, not your Gmail password!

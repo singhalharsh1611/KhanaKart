@@ -1,0 +1,24 @@
+.admin-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    padding: 12px;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+button{
+    padding: 10px;
+    border-radius: 12px;
+    background-color: tomato;
+    color: white;
+    border-color: tomato;
+    border-style: none;
+}

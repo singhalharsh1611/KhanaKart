@@ -103,10 +103,10 @@ export const menu_list = [
         menu_name: "Cake",
         menu_image: menu_5
     },
-    {
-        menu_name: "Pure Veg",
-        menu_image: menu_6
-    },
+    // {
+    //     menu_name: "Pure Veg",
+    //     menu_image: menu_6
+    // },
     {
         menu_name: "Pasta",
         menu_image: menu_7
