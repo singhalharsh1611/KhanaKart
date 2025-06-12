@@ -13,8 +13,10 @@ const placeOrder = async (req, res) => {
       items: req.body.items,
       amount: req.body.amount,
       address: req.body.address,
+      payment: false, // explicitly mark as unpaid
     });
     await newOrder.save();
+
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
     const line_items = req.body.items.map((item) => ({
@@ -55,23 +57,38 @@ const placeOrder = async (req, res) => {
 
 const verifyOrder = async (req, res) => {
   const { orderId, success } = req.body;
+
+  if (!orderId) {
+    return res.status(400).json({ success: false, message: "Order ID missing" });
+  }
+
   try {
-    if (success == "true") {
-      await orderModel.findByIdAndUpdate(orderId, { payment: true });
-      res.json({ success: true, message: "Paid" });
+    const order = await orderModel.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+
+    if (success === "true") {
+      if (order.payment) {
+        return res.json({ success: true, message: "Already Paid" });
+      }
+
+      await orderModel.findByIdAndUpdate(orderId, { payment: true, status: "Confirmed" });
+      return res.json({ success: true, message: "Payment Successful" });
     } else {
       await orderModel.findByIdAndDelete(orderId);
-      res.json({ success: false, message: "Not Paid" });
+      return res.json({ success: false, message: "Payment Cancelled, Order Deleted" });
     }
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    console.log("Verification error:", error.message);
+    return res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
 // orders from user for frontend
 const userOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({ userId: req.body.userId });
+    const orders = await orderModel.find({ userId: req.body.userId, payment:true });
     res.json({ success: true, data: orders });
   } catch (error) {
     console.log(error);

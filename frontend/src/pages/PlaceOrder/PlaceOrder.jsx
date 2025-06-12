@@ -4,8 +4,10 @@ import { StoreContext } from "../../context/storeContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { FaSpinner } from "react-icons/fa";
 
 const PlaceOrder = () => {
+  const [loading, setloading] = useState(false)
   const { getTotalCartAmount, token, food_list, cartItems, url } =
     useContext(StoreContext);
 
@@ -35,6 +37,7 @@ const PlaceOrder = () => {
 
   const placeOrder = async (event) => {
     event.preventDefault();
+    setloading(true);
     let orderItems = [];
     food_list.map((item) => {
       if (cartItems[item._id] > 0) {
@@ -58,6 +61,8 @@ const PlaceOrder = () => {
     } else {
       alert("Minimum Order limit is 50");
     }
+    setloading(false);
+
   };
 
   const navigate = useNavigate();
@@ -173,7 +178,9 @@ const PlaceOrder = () => {
               <p>₹{getTotalCartAmount() ? getTotalCartAmount() + 2 : 0}</p>
             </div>
           </div>
-          <button type="submit">PROCEED TO PAYMENT</button>
+          <button type="submit" >
+          {loading ? <FaSpinner className="spinner-icon" /> : "PROCEED TO PAYMENT"}
+          </button>
         </div>
       </div>
     </form>

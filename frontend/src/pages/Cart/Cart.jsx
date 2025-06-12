@@ -35,7 +35,7 @@ const Cart = () => {
       setTimeout(() => {
         setLoadingProceed(false);
         navigate("/order");
-      }, 5000);
+      }, 1000);
     }
   };
 
