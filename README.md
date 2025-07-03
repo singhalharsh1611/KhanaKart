@@ -34,47 +34,47 @@ KhanaKart is a full-stack food ordering web application designed for a seamless 
 
 ## 🏗️ Architecture
 
-\`\`\`
+```
 React (Frontend)
        |
 Express (REST API) ---- MongoDB
-\`\`\`
+```
 
 ---
 
 ## 📄 Setup
 
 1. **Clone the repository:**
-   \`\`\`bash
+   ```bash
    git clone https://github.com/singhalharsh1611/khanakart.git
    cd khanakart
-   \`\`\`
+   ```
 
 2. **Install dependencies:**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 3. **Configure environment variables:**
 
 ### ✅ Frontend (`/frontend/.env`)
 
-\`\`\`env
+```env
 REACT_APP_MONGO_URI=your_mongodb_connection_string
 VITE_BACKEND_URL=http://localhost:4000
 VITE_REST_LAN=your_latitude_of_restaurant
 VITE_REST_LONG=your_longitude_of_restaurant
-\`\`\`
+```
 
 ### ✅ Admin (`/admin/.env`)
 
-\`\`\`env
+```env
 VITE_BACKEND_URL=http://localhost:4000
-\`\`\`
+```
 
 ### ✅ Backend (`/backend/.env`)
 
-\`\`\`env
+```env
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 SESSION_SECRET=your_session_secret
@@ -91,28 +91,28 @@ SENDER_GMAIL=your_email_for_notifications
 SENDER_PASS=your_email_app_password
 ADMIN_EMAIL=your_admin_email
 ADMIN_PASSWORD=your_admin_password
-\`\`\`
+```
 
 
 4. **Run in the correct order:**
 
 ✅ First, start the **customer frontend** on port 5173:  
-\`\`\`bash
+```bash
 cd frontend
 npm run dev
-\`\`\`
+```
 
 ✅ Then, start the **admin frontend** on port 5174:  
-\`\`\`bash
+```bash
 cd ../admin
 npm run dev -- --port 5174
-\`\`\`
+```
 
 ✅ Finally, start the **backend**:  
-\`\`\`bash
+```bash
 cd ../backend
 npm run server
-\`\`\`
+```
 
 5. **Visit the applications:**  
 - **Customer Frontend:** [http://localhost:5173](http://localhost:5173)  
