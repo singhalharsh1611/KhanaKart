@@ -7,7 +7,8 @@ KhanaKart is a full-stack food ordering web application designed for a seamless 
 
 ## 🚀 Features
 
-✅ Browse restaurants and menus  
+✅ Browse menu ad food items category wise
+✅ Search across the overall menu
 ✅ Add items to a cart with quantity management  
 ✅ Secure checkout with payment gateway integration  
 ✅ User authentication (sign-up, login)  
@@ -29,6 +30,52 @@ KhanaKart is a full-stack food ordering web application designed for a seamless 
 - **Cloud Storage**: Cloudinary
 - **Payment Gateway**: Stripe
 - **Deployment**: Vercel  
+
+---
+## 📸 Screenshots - Client Side       
+**Homepage**
+![image](https://github.com/user-attachments/assets/5928f155-37a3-447d-a28d-41f8d7a58b6b)
+
+**Menu Section**
+![image](https://github.com/user-attachments/assets/45c73b53-8e14-43cf-b40d-c39c0db26694)
+
+**Adding Products from Menu**
+![image](https://github.com/user-attachments/assets/cdf287fa-400e-40de-9323-e87f8852ca47)
+
+**Cart**
+![image](https://github.com/user-attachments/assets/864fddd1-3c99-421c-a376-9eee3429f582)
+
+**Order Placing**
+![image](https://github.com/user-attachments/assets/ecfc5717-fd22-4aee-8306-be5558926e02)
+
+**Payment Page**
+![image](https://github.com/user-attachments/assets/09e71077-244f-4f3b-b18d-e0e4e1bc36a2)
+
+**My Orders Page**
+![image](https://github.com/user-attachments/assets/1f131b55-f2b9-4a33-bc66-e18ba8f64d50)
+
+
+## 📸 Screenshots - Admin Side
+
+> ⚠️ **Note:** The admin pages are secured and will not be accessible without the admin email and password, which are provided only by the application owner.
+> <br></br>
+> Deployed on [https://khanakart-admin.vercel.app](https://khanakart-admin.vercel.app)
+
+**Admin Login**
+![image](https://github.com/user-attachments/assets/28dcf899-b8f6-4e4e-9e56-0a6291e5d884)
+
+**Admin Dashboard - Add Item**
+![image](https://github.com/user-attachments/assets/228fdac4-9730-4b2c-9c12-3ff79d1e7317)
+
+**Admin Dashboard - List Items**
+![image](https://github.com/user-attachments/assets/fe52f942-5b52-42d9-8124-52e47f1edc23)
+
+**Admin Dashboard - Update Items**
+![image](https://github.com/user-attachments/assets/6ce403a1-c97b-4cbc-9dd5-6606541fecda)
+
+
+**Admin Dashboard - Orders Page**
+![image](https://github.com/user-attachments/assets/60fffd1a-63e8-4526-b5cd-4ff4178a9b61)
 
 ---
 
