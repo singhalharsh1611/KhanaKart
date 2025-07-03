@@ -1,4 +1,4 @@
-# 🍽️ KhanaKart — Online Food Ordering Platform
+# 🍽️ KhanaKart — Online Food Ordering Platform ([Live Website](https://khanakart.vercel.app))
 
 > **Bringing your favorite meals to your doorstep, fast and fresh.**
 
