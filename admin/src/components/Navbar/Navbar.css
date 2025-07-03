@@ -11,3 +11,21 @@
 .navbar .profile{
     width: 40px;
 }
+
+.navbar-search-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.navbar-search-input {
+  padding: 8px 16px;
+  border: 3px solid black;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: 2px solid tomato;
+}
+
+

@@ -13,6 +13,7 @@ import Verify from "./pages/Verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 
 const App = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const [forgetPassword, setForgetPassword] = useState(false);
   const { setToken } = useContext(StoreContext);
@@ -44,9 +45,9 @@ const App = () => {
       {/* {forgetPassword ? <>} */}
       
       <div className="app">
-        <Navbar setShowLogin={setShowLogin} />
+        <Navbar setShowLogin={setShowLogin} setSearchQuery={setSearchQuery} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home searchQuery={searchQuery} />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/token-issue" element={<TokenIssue />} />

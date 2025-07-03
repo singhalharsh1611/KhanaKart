@@ -4,8 +4,10 @@ import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/storeContext";
 
-const Navbar = ({ setShowLogin }) => {
+const Navbar = ({ setShowLogin, setSearchQuery }) => {
   const [menu, setMenu] = useState("home");
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchInput, setSearchInput] = useState(""); 
   const { getTotalCartAmount, token, setToken, userName } =
     useContext(StoreContext);
   const navigate = useNavigate();
@@ -13,6 +15,17 @@ const Navbar = ({ setShowLogin }) => {
     localStorage.removeItem("token");
     setToken("");
     navigate("/");
+  };
+  
+  
+  const handleSearch = () => {
+    if (searchInput.trim() !== "") {
+      
+      // console.log("Searching for:", searchInput);
+      // console.log("Navbar props → setSearchQuery:", setSearchQuery);
+      setSearchQuery(searchInput);       
+      setShowSearchBar(false);           
+    }
   };
 
   return (
@@ -51,15 +64,40 @@ const Navbar = ({ setShowLogin }) => {
         </a>
       </ul>
 
-      <div className="navbar-right">
-        <img src={assets.search_icon} alt="" />
+      <div className="navbar-right" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+
         <div className="navbar-search-icon">
+        <img src={assets.search_icon} 
+            alt="Search"
+            className="cursor-pointer"
+            onClick={() => setShowSearchBar(!showSearchBar)}
+        />
+
+        {showSearchBar && (
+  <input
+    type="text"
+    placeholder="Search food..."
+    value={searchInput}
+    onChange={(e) => {
+      const value = e.target.value;
+      setSearchInput(value);
+      setSearchQuery(value); 
+    }}
+    className="navbar-search-input"
+  />
+)}
+
+          </div>
+          
+          <div className="navbar-search-icon">
           <Link to="/cart">
             <img src={assets.basket_icon} alt="" />
           </Link>
 
           <div className={getTotalCartAmount() ? "dot" : ""}></div>
         </div>
+
+
         {!token ? (
           <button onClick={() => setShowLogin(true)}>Sign In</button>
         ) : (
